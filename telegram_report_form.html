@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>نموذج إعداد بلاغ</title>
+<style>
+:root{color-scheme:dark;--bg:#17161c;--panel:#101015;--muted:#aaa7b3;--red:#ff3b45;--blue:#2794ff}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at top,#292630,#111015 65%);color:#f5f3f7;font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;min-height:100vh;padding:26px 14px;overflow-x:hidden}
+main{max-width:680px;margin:auto;position:relative;z-index:1}
+h1{font-size:25px;margin:0}.brand{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:8px 4px 20px}.brand span{color:var(--muted);font-size:13px}.credit{text-align:center;color:var(--muted);font-size:13px;margin:28px 0 10px}.credit b{color:#fff}
+.note{color:var(--muted);font-size:13px;margin:0 4px 18px;line-height:1.7}
+label{display:block;color:#c9c6d0;margin:18px 2px 8px;font-size:14px}
+input,textarea{width:100%;border:1px solid #393640;border-radius:20px;background:#111015;color:#fff;padding:15px 17px;font:inherit;outline:none}
+input:focus,textarea:focus{border-color:#77717f}
+textarea{min-height:150px;resize:vertical;line-height:1.65}
+.actions{display:grid;gap:14px;margin-top:22px}
+button{border:0;border-radius:24px;padding:17px 15px;font:700 18px inherit;color:#1689ff;background:linear-gradient(110deg,#ff303d,#ff626b);cursor:pointer}
+button.secondary{background:#302e35;color:#f4f1f6;font-size:16px}
+button:active{transform:scale(.99)}
+small{display:block;color:#aaa7b3;line-height:1.7;margin:12px 3px}
+.snow{position:fixed;inset:0;pointer-events:none;overflow:hidden;opacity:.5}
+.snow i{position:absolute;top:-30px;color:#bfeaff;font-style:normal;animation:fall linear infinite}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="snow" aria-hidden="true">
+<i style="left:5%;animation-duration:12s">❄</i><i style="left:17%;animation-duration:17s;animation-delay:2s">❄</i>
+<i style="left:31%;animation-duration:14s;animation-delay:5s">❄</i><i style="left:48%;animation-duration:19s;animation-delay:1s">❄</i>
+<i style="left:63%;animation-duration:13s;animation-delay:4s">❄</i><i style="left:78%;animation-duration:16s;animation-delay:3s">❄</i>
+<i style="left:92%;animation-duration:15s;animation-delay:6s">❄</i>
+</div>
+<main>
+<div class="brand"><h1>Loudin | لودين</h1><span>Telegram Report</span></div>
+<p class="note">املأ الحقول وراجع النص قبل الإرسال. زر «إرسال البلاغ» يفتح تطبيق البريد برسالة جاهزة، ولا يرسلها تلقائياً.</p>
+
+<label for="recipient">البريد المستلم</label>
+<input id="recipient" type="email" value="stopCA@telegram.org" dir="ltr">
+
+<label for="subject">الموضوع</label>
+<input id="subject" value="Request for review of reported content" dir="auto">
+
+<label for="links">روابط المحتوى محل البلاغ</label>
+<textarea id="links" placeholder="ضع كل رابط في سطر مستقل" dir="ltr"></textarea>
+
+<label for="body">نص البلاغ</label>
+<textarea id="body" placeholder="اكتب نص البلاغ هنا..." dir="auto"></textarea>
+
+<div class="actions">
+<button type="button" id="send">إرسال البلاغ عبر البريد</button>
+<button type="button" class="secondary" id="preview">معاينة الرسالة</button>
+<button type="button" class="secondary" id="copy">نسخ نص البلاغ</button>
+</div>
+<small>ملاحظة: سيُفتح تطبيق البريد الافتراضي إذا كان مضبوطاً على جهازك. راجع المستلم والموضوع والنص والروابط، ثم اضغط إرسال بنفسك. استخدم النموذج فقط للمحتوى الذي شاهدته فعلاً.</small>
+<footer class="credit">Designed by <b dir="ltr">@Loudin01</b></footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+function compose(){
+ const links=$('links').value.trim();
+ const body=$('body').value.replace('[Add the relevant public links here]',links||'[No links added]');
+ return {to:$('recipient').value.trim(),subject:$('subject').value,body};
+}
+$('send').addEventListener('click',()=>{
+ const m=compose();
+ if(!m.to){alert('أدخل البريد المستلم أولاً.');return;}
+ const url='mailto:'+encodeURIComponent(m.to)+'?subject='+encodeURIComponent(m.subject)+'&body='+encodeURIComponent(m.body);
+ window.location.href=url;
+});
+$('preview').addEventListener('click',()=>{
+ const m=compose();
+ alert('إلى: '+m.to+'\n\nالموضوع: '+m.subject+'\n\n'+m.body);
+});
+$('copy').addEventListener('click',async()=>{
+ const m=compose(),text='To: '+m.to+'\nSubject: '+m.subject+'\n\n'+m.body;
+ try{await navigator.clipboard.writeText(text);alert('تم نسخ نص الرسالة.');}
+ catch(e){alert('تعذر النسخ تلقائياً. استخدم المعاينة وانسخ النص يدوياً.');}
+});
+</script>
+</body>
+</html>
