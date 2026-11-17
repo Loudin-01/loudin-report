@@ -67,7 +67,11 @@ $('send').addEventListener('click',()=>{
  const m=compose();
  if(!m.to){alert('أدخل البريد المستلم أولاً.');return;}
  const url='mailto:'+encodeURIComponent(m.to)+'?subject='+encodeURIComponent(m.subject)+'&body='+encodeURIComponent(m.body);
- window.location.href=url;
+ const link=document.createElement('a');
+link.href=url;
+document.body.appendChild(link);
+link.click();
+link.remove();
 });
 $('preview').addEventListener('click',()=>{
  const m=compose();
