@@ -37,7 +37,7 @@ small{display:block;color:#aaa7b3;line-height:1.7;margin:12px 3px}
 <p class="note">املأ الحقول وراجع النص قبل الإرسال. زر «إرسال البلاغ» يفتح تطبيق البريد برسالة جاهزة، ولا يرسلها تلقائياً.</p>
 
 <label for="recipient">البريد المستلم</label>
-<input id="recipient" type="email" value="stopCA@telegram.org" dir="ltr">
+<input id="recipient" type="email" value="abuse@telegram.org" dir="ltr">
 
 <label for="subject">الموضوع</label>
 <input id="subject" value="Request for review of reported content" dir="auto">
@@ -61,8 +61,8 @@ const $=id=>document.getElementById(id);
 function compose(){
  const links=$('links').value.trim();
  const body=$('body').value.replace('[Add the relevant public links here]',links||'[No links added]');
- return {to:$('recipient').value.trim(),subject:$('subject').value,body};
-}
+ return {to:'abuse@telegram.org',subject:$('subject').value,body};
+
 $('send').addEventListener('click',()=>{
  const m=compose();
  if(!m.to){alert('أدخل البريد المستلم أولاً.');return;}
