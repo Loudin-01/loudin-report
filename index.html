@@ -61,7 +61,7 @@ const $=id=>document.getElementById(id);
 function compose(){
  const links=$('links').value.trim();
  const body=$('body').value.replace('[Add the relevant public links here]',links||'[No links added]');
- return {to:$('recipient').value.trim(),subject:$('subject').value,body};
+return {to:'abuse@telegram.org',subject:$('subject').value,body};
 }
 $('send').addEventListener('click',()=>{
  const m=compose();
